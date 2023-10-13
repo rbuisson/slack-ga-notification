@@ -13,23 +13,26 @@ jobs:
       - name: Do some mock build
         run: echo "Building... Done."
 
-      - name: Notify Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-         payload: |
-           {
-             "text": "QA test suite build result: ${{ job.status }} \n a new line",
-             "blocks": [
-               {
-                 "type": "section",
-                 "text": {
-                           "type": "mrkdwn",
-                           "text": "QA test suite build result: ${{ job.status }}\n a new line"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      - name: Debug
+        run: echo "${{ github }}"
+
+      # - name: Notify Slack
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with:
+      #    payload: |
+      #      {
+      #        "text": "QA test suite build result: ${{ job.status }} \n a new line",
+      #        "blocks": [
+      #          {
+      #            "type": "section",
+      #            "text": {
+      #                      "type": "mrkdwn",
+      #                      "text": "QA test suite build result: ${{ job.status }}\n ${{github}}"
+      #             }
+      #           }
+      #         ]
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
