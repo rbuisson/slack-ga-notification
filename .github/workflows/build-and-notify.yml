@@ -36,7 +36,7 @@ jobs:
                  "type": "section",
                  "text": {
                            "type": "mrkdwn",
-                           "text": "QA test suite build result: ${{ steps.jobStatusPretty.outputs.jobStatusPretty }}\n${{github.repository}}"
+                           "text": "QA test suite build result: ${{ env.jobStatusPretty }}\n${{github.repository}}"
                   }
                 }
               ]
