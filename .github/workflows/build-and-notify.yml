@@ -2,6 +2,7 @@ name: Build and notify
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
@@ -13,26 +14,33 @@ jobs:
       - name: Do some mock build
         run: echo "Building... Done."
 
-      - name: Debug
-        run: echo "${{ github }}"
+      - name: Set the posted message
+        run: |
+          if [[ ${{ job.status }} == "success" ]]; then; prettyJobResultStatus="✅ Success"
+          else; prettyJobResultStatus="❌ Fail"
+          fi
+          echo $prettyJobResultStatus >> "$GITHUB_OUTPUT"
 
-      # - name: Notify Slack
-      #   id: slack
-      #   uses: slackapi/slack-github-action@v1.24.0
-      #   with:
-      #    payload: |
-      #      {
-      #        "text": "QA test suite build result: ${{ job.status }} \n a new line",
-      #        "blocks": [
-      #          {
-      #            "type": "section",
-      #            "text": {
-      #                      "type": "mrkdwn",
-      #                      "text": "QA test suite build result: ${{ job.status }}\n ${{github}}"
-      #             }
-      #           }
-      #         ]
-      #       }
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      - name: Debug
+        run: echo "${{ github.repository }}"
+
+      - name: Notify Slack
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+         payload: |
+           {
+             "text": "It seems that this text will be ignored.",
+             "blocks": [
+               {
+                 "type": "section",
+                 "text": {
+                           "type": "mrkdwn",
+                           "text": "QA test suite build result: ${{ job.status }}\n${{github.repository}}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
