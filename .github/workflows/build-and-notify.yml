@@ -18,9 +18,9 @@ jobs:
         id: jobStatusPretty
         run: |
           if [[ ${{ job.status }} == "success" ]]; then
-            jobStatusPretty="✅ Success"
+            jobStatusPretty="✅ Success!"
           else
-            jobStatusPretty="❌ Fail"
+            jobStatusPretty="❌ Fail... 🤯"
           fi
           echo "jobStatusPretty=$jobStatusPretty" >> "$GITHUB_ENV"
 
@@ -36,7 +36,7 @@ jobs:
                  "type": "section",
                  "text": {
                            "type": "mrkdwn",
-                           "text": "QA test suite build result: ${{ env.jobStatusPretty }}\n$Repo: {{github.repository}}"
+                           "text": "*QA for ${{ github.repository }}*: ${{ env.jobStatusPretty }}"
                   }
                 }
               ]
