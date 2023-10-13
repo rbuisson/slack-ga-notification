@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Do some mock build
-        run: echo "Building..."
+        run: echo "Building... Done."
 
       - name: Notify Slack
         id: slack
@@ -19,7 +19,7 @@ jobs:
         with:
          payload: |
            {
-             "text": "QA test suite build result: ${{ job.status }}\n${{ github.event.schedule.html_url || github.event.head_commit.url  }}",
+             "text": "QA test suite build result: ${{ job.status }} \n a new line",
              "blocks": [
                {
                  "type": "section",
