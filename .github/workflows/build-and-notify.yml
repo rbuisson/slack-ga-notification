@@ -15,14 +15,14 @@ jobs:
         run: echo "Building... Done."
 
       - name: Set the posted message
+        id: jobStatusPretty
         run: |
-          if [[ ${{ job.status }} == "success" ]]; then; prettyJobResultStatus="✅ Success"
-          else; prettyJobResultStatus="❌ Fail"
+          if [[ ${{ job.status }} == "success" ]]; then
+            jobStatusPretty="✅ Success"
+          else
+            jobStatusPretty="❌ Fail"
           fi
-          echo $prettyJobResultStatus >> "$GITHUB_OUTPUT"
-
-      - name: Debug
-        run: echo "${{ github.repository }}"
+          echo "jobStatusPretty=$jobStatusPretty" >> "$GITHUB_ENV"
 
       - name: Notify Slack
         id: slack
@@ -36,7 +36,7 @@ jobs:
                  "type": "section",
                  "text": {
                            "type": "mrkdwn",
-                           "text": "QA test suite build result: ${{ job.status }}\n${{github.repository}}"
+                           "text": "QA test suite build result: ${{ steps.jobStatusPretty.outputs.jobStatusPretty }}\n${{github.repository}}"
                   }
                 }
               ]
