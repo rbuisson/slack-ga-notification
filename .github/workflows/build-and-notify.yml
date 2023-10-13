@@ -25,7 +25,7 @@ jobs:
                  "type": "section",
                  "text": {
                            "type": "mrkdwn",
-                           "text": "QA test suite build result: ${{ job.status }}\n${{ github.event.schedule.html_url || github.event.head_commit.url }}"
+                           "text": "QA test suite build result: ${{ job.status }}\n a new line"
                   }
                 }
               ]
